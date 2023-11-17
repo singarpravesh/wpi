@@ -1,3 +1,23 @@
+# install.packages("factoextra")
+library(factoextra)
+
+# Step 1: Calculate principal components
+data(iris)
+iris_pca <- prcomp(iris[, 1:4], scale = TRUE)
+names(iris_pca)
+summary(iris_pca)
+
+# Step 2: Ideal number of components
+library(factoextra)
+fviz_eig(iris_pca, addlabels = TRUE)
+
+# Step 3: biplot
+fviz_pca_biplot(iris_pca, label = "var",
+                habillage = iris$Species)
+
+
+
+#-----------------------------------
 # Load the Iris dataset
 data(iris)
 

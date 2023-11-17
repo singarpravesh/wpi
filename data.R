@@ -1,5 +1,9 @@
 # import the data
 library(haven)
-d1 <- read_dta("R76120L01-Identification of sample household.dta")
-d2 <- read_dta("R76120L02-Demographic and other particulars of household members.dta")
-d3 <- read_dta()
+d1 <- read_dta("R76120L01-Identification of sample household.dta",
+               col_select = c('HHID', 'Sector', 'District', 'State'))
+d2 <- read_dta("R76120L02-Demographic and other particulars of household members.dta",
+               col_select = c('HHID', 'Sector', 'District', 'State', 'Gender', "Age",
+                 "Marital_status","Highes_education", "latrine_code", 
+                 "type_latrine_used", "latrine_used_household"))
+d3 <- read_dta("R76120L03-Household characteristics.dta")
