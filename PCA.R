@@ -6,6 +6,14 @@ data(iris)
 iris_pca <- prcomp(iris[, 1:4], scale = TRUE)
 names(iris_pca)
 summary(iris_pca)
+iris_pca$rotation
+# Access the unnormalized weights (loadings) for each principal component
+weights_unnormalized <- iris_pca$rotation
+
+# Normalize the weights using the custom function
+weights_normalized <- scale(weights_unnormalized, scale = FALSE) / sqrt(rowSums(weights_unnormalized^2))
+
+
 
 # Step 2: Ideal number of components
 library(factoextra)

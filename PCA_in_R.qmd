@@ -1,0 +1,86 @@
+---
+title: "PCA in R"
+format: html
+---
+
+## Weights
+In Principal Component Analysis (PCA), weights refer to the coefficients assigned to the original variables (features) when constructing the principal components. Principal components are linear combinations of the original variables, and the weights determine the contribution of each variable to the composition of the principal components.
+
+Let's delve into the concept of weights in PCA:
+
+1. **Mathematical Representation:**
+   - Given a dataset with \(p\) variables (features) measured for \(n\) observations, the matrix of data is represented as $(X_{n \times p}).$
+   - The weights are represented by a set of coefficients for each variable, forming a vector. For the \(i\)-th principal component (PC), the weights are denoted as $(w_{1i}, w_{2i}, \ldots, w_{pi})$.
+   - The \(i\)-th principal component, $(PC_i)$, is constructed as a linear combination of the original variables:
+
+     $[ PC_i = w_{1i}X_1 + w_{2i}X_2 + \ldots + w_{pi}X_p ]$
+
+2. **Weight Interpretation:**
+   - The weights determine the contribution of each original variable to the principal component.
+   - A larger absolute value of a weight indicates a stronger contribution of the corresponding variable to that principal component.
+   - Positive and negative weights signify the direction of the contribution (positive or negative correlation).
+
+3. **Principal Component Scores:**
+   - Once the weights are determined, the principal component scores for each observation are calculated by multiplying the original data matrix by the weights. The scores represent the coordinates of the observations in the principal component space.
+
+4. **Variance Explanation:**
+   - The weights are chosen in such a way that the first principal component $(PC_1)$ captures the maximum variance in the data, the second principal component $(PC_2)$ captures the maximum remaining variance orthogonal to$(PC_1)$, and so on.
+   - The eigenvalues associated with each principal component indicate the amount of variance explained by that component, and the sum of eigenvalues provides the total variance in the data.
+
+5. **Normalization:**
+   - In some implementations of PCA, the weights are normalized to have a unit length. This normalization ensures that the magnitude of the weights does not affect the overall scaling of the principal components.
+
+6. **Loadings:**
+   - The weights are also referred to as loadings, and they provide information about the correlation between the original variables and the principal components. The loading of a variable on a principal component is the correlation between that variable and the principal component.
+
+In summary, weights in PCA represent the coefficients assigned to the original variables when constructing principal components. They play a crucial role in capturing the variance in the data and determining the contribution of each variable to the principal components. The weights are chosen to maximize the variance explained by each principal component while ensuring orthogonality between components.
+
+## Implementing PCA in R
+
+
+```{r, warning=FALSE, message=FALSE}
+# install.packages("factoextra")
+library(factoextra)
+```
+
+**Step 1: Calculate principal components**
+```{r, warning=FALSE, message=FALSE}
+data(iris)
+iris_pca <- prcomp(iris[, 1:4], scale = TRUE)
+names(iris_pca)
+summary(iris_pca)
+iris_pca$rotation # weights or loadings
+```
+
+
+Access the unnormalized weights (loadings) for each principal component
+```{r, warning=FALSE, message=FALSE}
+(weights_unnormalized <- iris_pca$rotation)
+```
+
+Normalize the weights using the custom function
+```{r, warning=FALSE, message=FALSE}
+(weights_normalized <- scale(weights_unnormalized, scale = FALSE) / sqrt(rowSums(weights_unnormalized^2)))
+
+```
+
+
+
+**Step 2: Ideal number of components**
+
+```{r, warning=FALSE, message=FALSE}
+
+library(factoextra)
+fviz_eig(iris_pca, addlabels = TRUE)
+
+```
+
+# Step 3: biplot
+
+```{r, warning=FALSE, message=FALSE}
+fviz_pca_biplot(iris_pca, label = "var",
+                habillage = iris$Species)
+
+```
+
+
