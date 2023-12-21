@@ -46,3 +46,6 @@ com_data <- d2 |>
   left_join(d6, join_by(HHID)) |> 
   relocate(HHID)
 write.csv(com_data, "com_data.csv")
+
+com_data |> names()
+table(com_data$Frequency_water_supply[1:50])
