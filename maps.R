@@ -33,6 +33,7 @@ a <- districts_nsso_raw |>
          capacity = Capacity,
          environment = Environment,
          wpi_pca = WPI_pca) |> 
+  mutate(Sector = as.factor(Sector)) |> 
   arrange(district) |> 
   # remove #N/A string in district
   filter(!(district %in% "#N/A")) |> 
@@ -103,4 +104,7 @@ ggsave("capacity_map.png")
 
 #######################
 
-
+# by sector
+nsso_districts_sector <- a |> 
+  group_by(district, Sector) |> 
+  summarise_at(vars(resource:wpi_pca), median)
