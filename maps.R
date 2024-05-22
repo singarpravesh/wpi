@@ -49,6 +49,9 @@ final_districts <- left_join(nsso_districts, shp_districts, by = "district")
 # convert to sf object
 sf_final_districts <- st_sf(final_districts, sf_column_name = "geometry")
 
+
+
+
 # mapping
 # wpi map
 wpi_map <- ggplot()+
